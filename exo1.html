@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <script>
+     "use strict";
+   
+     const refresh = function() {
+       //console.log("tick !");
+       //window.setTimeout(refresh, 1000); question 1
+       //console.log(new Date()); question 4
+       console.log(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
+     }
+     
+     const loaded = function() {
+       window.setTimeout(refresh, 1000);
+     }
+     window.setInterval(refresh, 1000);
+   </script>
+ </head>
+ <body onload="loaded()">
+  <h2>Horloge</h2>
+  <canvas id="clock"
+          width="600"
+          height="600">
+  </canvas>
+  <script>
+     function horloge(){
+         second = new Date().getSeconds();
+         minutes = new Date().getMinutes();
+         heures = new Date().getHours();
+         xs = 300+220 * Math.sin((2*Math.PI) * second/60);
+         ys = 300-220 * Math.cos((2*Math.PI) * second/60);
+         xm = 300+200 * Math.sin((2*Math.PI) * minutes/60);
+         ym = 300-200 * Math.cos((2*Math.PI) * minutes/60);
+         xh = 300+140 * Math.sin((2*Math.PI) * heures/12);
+         yh = 300-140 * Math.cos((2*Math.PI) * heures/12);
+
+         const canvas = document.getElementById('clock');
+         const context = canvas.getContext("2d");
+
+         context.clearRect(0 ,0 , 600 ,600);
+        
+        // cadre
+         context.beginPath();
+         context.lineWidth = 3;
+         context.strokeStyle = 'blue';
+         context.moveTo(300+220, 300);
+         context.arc(300, 300, 220, 0, 2* Math.PI);
+         context.stroke();
+
+        //trotteuse
+         context.beginPath();
+         context.lineWidth = 1;
+         context.strokeStyle = 'red';
+         context.moveTo(xs, ys);
+         context.lineTo(300, 300);
+         context.stroke();
+
+        //aiguille des minutes
+         context.beginPath();
+         context.lineWidth = 3;
+         context.strokeStyle = 'green';
+         context.moveTo(xm, ym);
+         context.lineTo(300, 300);
+         context.stroke();
+
+        //aguille des heures
+         context.beginPath();
+         context.lineWidth = 5;
+         context.strokeStyle = 'black';
+         context.moveTo(xh, yh);
+         context.lineTo(300, 300);
+         context.stroke();
+
+        //12 petits traits
+        for(let i = 0; i < 13; i++){
+          x1 = 300+220 * Math.sin((2*Math.PI) * i/12);
+          y1 = 300-220 * Math.cos((2*Math.PI) * i/12);
+          x2 = 300+215 * Math.sin((2*Math.PI) * i/12);
+          y2 = 300-215 * Math.cos((2*Math.PI) * i/12);
+          context.beginPath();
+          context.moveTo(x1, y1);
+          context.lineTo(x2, y2);
+          context.stroke();
+        }
+     }
+
+     window.setInterval(horloge, 1000)
+  </script>
+ </body>
+</html>
